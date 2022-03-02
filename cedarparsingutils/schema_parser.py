@@ -45,7 +45,7 @@ class SchemaParser:
          * does recursive call if the node contains children
          * calls the corresponding abstract parsing method
 
-        The abstract parsing methods must be overwritten by the inheriting class of SchemaParser:
+        The abstract parsing methods must be overridden by the inheriting class of SchemaParser:
          * parse_single_object_field
          * parse_nested_object_field
          * parse_single_array_field
@@ -122,7 +122,7 @@ class SchemaParser:
     @abstractmethod
     def parse_unknown_schema_name(self, node_schema_name=None, node_id=None):
         """
-        This method is meant to be overwritten to put the logic for unsupported schema name.
+        This method is meant to be overridden to put the logic for unsupported schema name.
 
         Parameters
         ----------
@@ -155,7 +155,7 @@ class SchemaParser:
     @abstractmethod
     def parse_nested_object_field(self, node, node_id=None, parent=None):
         """
-        This method is meant to be overwritten and put the logic about how to parse nested object field.
+        This method is meant to be overridden and put the logic about how to parse nested object field.
         E.g:
         Creator{
             CreatorName: {}
@@ -201,7 +201,7 @@ class SchemaParser:
     @abstractmethod
     def parse_nested_array_field(self, node, node_id=None, parent=None):
         """
-        This method is meant to be overwritten and put the logic about how to parse nested array field.
+        This method is meant to be overridden and put the logic about how to parse nested array field.
         E.g:
         Creator[
             {
