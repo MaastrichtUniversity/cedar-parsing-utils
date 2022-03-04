@@ -29,5 +29,5 @@ class RelatedResources:
         for item in element:
             resource = RelatedResource.create_from_element(item)
             output.append(resource)
-        subjects = cls(output)
-        return subjects
+
+        return cls(output)

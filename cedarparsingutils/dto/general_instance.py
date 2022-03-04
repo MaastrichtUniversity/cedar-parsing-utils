@@ -1,3 +1,6 @@
+from cedarparsingutils.dto.general_elements.contacts import Contacts
+from cedarparsingutils.dto.general_elements.contributors import Contributors
+from cedarparsingutils.dto.general_elements.creator import Creator
 from cedarparsingutils.dto.general_elements.date import Date
 from cedarparsingutils.dto.general_elements.description import Description
 from cedarparsingutils.dto.general_elements.identifier import Identifier
@@ -9,7 +12,7 @@ from cedarparsingutils.dto.general_elements.title import Title
 
 
 class GeneralInstance:
-    """ """
+    """The DTO class of a DataHub general instance"""
 
     def __init__(
         self,
@@ -28,9 +31,9 @@ class GeneralInstance:
         self.identifier: Identifier = identifier
         self.publisher: Publisher = publisher
         self.date: Date = date
-        self.creator = creator
-        self.contacts = contacts
-        self.contributors = contributors
+        self.creator: Creator = creator
+        self.contacts: Contacts = contacts
+        self.contributors: Contributors = contributors
         self.title: Title = title
         self.description: Description = description
         self.subjects: Subjects = subjects
@@ -42,9 +45,9 @@ class GeneralInstance:
         identifier = Identifier.create_from_element(metadata["1_Identifier"])
         publisher = Publisher.create_from_element(metadata["4_Publisher"])
         date = Date.create_from_element(metadata["8_Date"])
-        creator = metadata["2_Creator"]
-        contacts = metadata["7_ContactPerson"]
-        contributors = metadata["7_Contributor"]
+        creator = Creator.create_from_element(metadata["2_Creator"])
+        contacts = Contacts.create_from_element(metadata["7_ContactPerson"])
+        contributors = Contributors.create_from_element(metadata["7_Contributor"])
         title = Title.create_from_element(metadata["3_Title"])
         description = Description.create_from_element(metadata["17_Description"])
         subjects = Subjects.create_from_element(metadata["6_Subject"])

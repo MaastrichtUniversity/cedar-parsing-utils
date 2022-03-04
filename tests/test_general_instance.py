@@ -4,7 +4,7 @@ from cedarparsingutils.dto.general_instance import GeneralInstance
 
 
 def test_instance():
-    general_instance = GeneralInstance.create_from_dict(json_instance)
+    general_instance = GeneralInstance.create_from_dict(JSON_INSTANCE)
     # "1_Identifier"
     assert general_instance.identifier.pid == "https://hdl.handle.net/21.12109/P000000001C000000024.2"
     assert general_instance.identifier.type.uri == "http://vocab.fairdatacollective.org/gdmt/Handle"
@@ -16,6 +16,37 @@ def test_instance():
     assert general_instance.date.date == "2022-03-03"
     assert general_instance.date.type.uri == "http://vocab.fairdatacollective.org/gdmt/Submitted"
     assert general_instance.date.type.label == "Submitted"
+
+    # "2_Creator"
+    assert general_instance.creator.identifier == "0000-0000-0000-0000"
+    assert general_instance.creator.identifier_scheme_iri.uri == "https://orcid.org/"
+    assert general_instance.creator.identifier_scheme.label == "ORCiD"
+    assert general_instance.creator.given_name == "Jonathan"
+    assert general_instance.creator.family_name == "M\u00e9lius"
+    assert general_instance.creator.full_name == "Jonathan M\u00e9lius"
+    assert general_instance.creator.affiliation.label == ""
+
+    # "7_ContactPerson"
+    assert general_instance.contacts.contacts[0].identifier == "foobar"
+    assert general_instance.contacts.contacts[0].identifier_scheme.label == ""
+    assert general_instance.contacts.contacts[0].given_name == "Jonathan"
+    assert general_instance.contacts.contacts[0].family_name == "M\u00e9lius"
+    assert general_instance.contacts.contacts[0].full_name == "Jonathan M\u00e9lius"
+    assert general_instance.contacts.contacts[0].affiliation.label == ""
+    assert general_instance.contacts.contacts[0].type.label == "contact person"
+    assert general_instance.contacts.contacts[0].type.uri == "http://purl.org/zonmw/generic/10089"
+    assert general_instance.contacts.contacts[0].email == "jonathan.melius@maastrichtuniversity.nl"
+
+    # "7_Contributor"
+    assert general_instance.contributors.contributors[1].identifier is None
+    assert general_instance.contributors.contributors[1].identifier_scheme.label == "ORCiD"
+    assert general_instance.contributors.contributors[1].given_name == "Olav"
+    assert general_instance.contributors.contributors[1].family_name == "Palmen"
+    assert general_instance.contributors.contributors[1].full_name == "Olav Palmen"
+    assert general_instance.contributors.contributors[1].affiliation.label == ""
+    assert general_instance.contributors.contributors[1].type.label == "data manager"
+    assert general_instance.contributors.contributors[1].type.uri == "http://purl.org/zonmw/generic/10077"
+    assert general_instance.contributors.contributors[1].email == "o.palmen@maastrichtuniversity.nl"
 
     # "3_Title"
     assert general_instance.title.title == "Customizable metadata QA"
@@ -41,13 +72,8 @@ def test_instance():
         == "http://vocab.fairdatacollective.org/gdmt/Requires"
     )
 
-    # print(general_instance.date.date)
-    # print(general_instance.date.type)
-    # print(general_instance.date.type.uri)
-    # print(general_instance.date.type.label)
 
-
-instance_raw = """
+INSTANCE_RAW = """
     {
         "7_Contributor": [
             {
@@ -401,4 +427,4 @@ instance_raw = """
         }
     }
     """
-json_instance = json.loads(instance_raw, strict=False)
+JSON_INSTANCE = json.loads(INSTANCE_RAW, strict=False)

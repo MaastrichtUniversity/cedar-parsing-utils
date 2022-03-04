@@ -25,8 +25,8 @@ class Subjects:
     ]
     """
 
-    def __init__(self, data_stewards: list[Subject]):
-        self.subjects: list[Subject] = data_stewards
+    def __init__(self, subjects: list[Subject]):
+        self.subjects: list[Subject] = subjects
 
     @classmethod
     def create_from_element(cls, element: dict):
@@ -34,5 +34,5 @@ class Subjects:
         for item in element:
             subject = Subject.create_from_element(item)
             output.append(subject)
-        subjects = cls(output)
-        return subjects
+
+        return cls(output)
