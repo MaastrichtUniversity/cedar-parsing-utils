@@ -24,7 +24,7 @@ class Date:
         self.type: OntologyValue = type
 
     @classmethod
-    def create_from_element(cls, element):
+    def create_from_element(cls, element: dict):
         date = element["datasetDate"]["@value"]
         type = OntologyValue.create_from_element(element["datasetDateType"])
 

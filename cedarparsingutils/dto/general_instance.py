@@ -1,6 +1,11 @@
 from cedarparsingutils.dto.general_elements.date import Date
+from cedarparsingutils.dto.general_elements.description import Description
 from cedarparsingutils.dto.general_elements.identifier import Identifier
 from cedarparsingutils.dto.general_elements.publisher import Publisher
+from cedarparsingutils.dto.general_elements.related_resources import RelatedResources
+from cedarparsingutils.dto.general_elements.resource_type import ResourceType
+from cedarparsingutils.dto.general_elements.subjects import Subjects
+from cedarparsingutils.dto.general_elements.title import Title
 
 
 class GeneralInstance:
@@ -8,29 +13,29 @@ class GeneralInstance:
 
     def __init__(
         self,
-        identifier,
-        publisher,
-        date,
+        identifier: Identifier,
+        publisher: Publisher,
+        date: Date,
         creator,
         contacts,
         contributors,
-        title,
-        description,
-        subjects,
-        resource_type,
-        related_resource,
+        title: Title,
+        description: Description,
+        subjects: Subjects,
+        resource_type: ResourceType,
+        related_resources: RelatedResources,
     ):
-        self.identifier = identifier
-        self.publisher = publisher
-        self.date = date
+        self.identifier: Identifier = identifier
+        self.publisher: Publisher = publisher
+        self.date: Date = date
         self.creator = creator
         self.contacts = contacts
         self.contributors = contributors
-        self.title = title
-        self.description = description
-        self.subjects = subjects
-        self.resource_type = resource_type
-        self.related_resource = related_resource
+        self.title: Title = title
+        self.description: Description = description
+        self.subjects: Subjects = subjects
+        self.resource_type: ResourceType = resource_type
+        self.related_resources: RelatedResources = related_resources
 
     @classmethod
     def create_from_dict(cls, metadata):
@@ -40,11 +45,11 @@ class GeneralInstance:
         creator = metadata["2_Creator"]
         contacts = metadata["7_ContactPerson"]
         contributors = metadata["7_Contributor"]
-        title = metadata["3_Title"]
-        description = metadata["17_Description"]
-        subjects = metadata["6_Subject"]
-        resource_type = metadata["10_ResourceType"]
-        related_resource = metadata["12_RelatedIdentifier"]
+        title = Title.create_from_element(metadata["3_Title"])
+        description = Description.create_from_element(metadata["17_Description"])
+        subjects = Subjects.create_from_element(metadata["6_Subject"])
+        resource_type = ResourceType.create_from_element(metadata["10_ResourceType"])
+        related_resources = RelatedResources.create_from_element(metadata["12_RelatedIdentifier"])
 
         return cls(
             identifier,
@@ -57,5 +62,5 @@ class GeneralInstance:
             description,
             subjects,
             resource_type,
-            related_resource,
+            related_resources,
         )

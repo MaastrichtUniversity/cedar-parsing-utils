@@ -12,6 +12,9 @@ class OntologyValue:
 
     @classmethod
     def create_from_element(cls, value: dict):
+        if not value:
+            return cls("", "")
+
         uri = value["@id"]
         label = value["rdfs:label"]
 

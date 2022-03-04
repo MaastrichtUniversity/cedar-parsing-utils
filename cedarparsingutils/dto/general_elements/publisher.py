@@ -14,7 +14,7 @@ class Publisher:
         self.publisher: str = publisher
 
     @classmethod
-    def create_from_element(cls, element):
+    def create_from_element(cls, element: dict):
         publisher = element["Publisher"]["@value"]
 
         return cls(publisher)

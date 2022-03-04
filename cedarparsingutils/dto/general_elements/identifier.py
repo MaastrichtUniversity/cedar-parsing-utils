@@ -18,14 +18,13 @@ class Identifier:
     },
     """
 
-    def __init__(self, id: str, type: OntologyValue):
-        self.id: str = id
+    def __init__(self, pid: str, type: OntologyValue):
+        self.pid: str = pid
         self.type: OntologyValue = type
 
     @classmethod
-    def create_from_element(cls, element):
-        date = element["datasetIdentifier"]["@value"]
+    def create_from_element(cls, element: dict):
+        pid = element["datasetIdentifier"]["@value"]
         type = OntologyValue.create_from_element(element["datasetIdentifierType"])
 
-        return cls(date, type)
-
+        return cls(pid, type)
