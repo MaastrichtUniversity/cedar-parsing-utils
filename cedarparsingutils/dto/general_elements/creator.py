@@ -1,10 +1,53 @@
+import json
+
 from cedarparsingutils.dto.ontology_value import OntologyValue
-from cedarparsingutils.dto.person import Person
 
 
-class Creator(Person):
+class Creator:
     """
-    "2_Creator": {
+    The DTO class parses a "2_Creator" element object from a DataHub general instance.
+    """
+
+    def __init__(
+        self,
+        identifier: str,
+        identifier_scheme: OntologyValue,
+        identifier_scheme_iri: OntologyValue,
+        given_name: str,
+        family_name: str,
+        full_name: str,
+        affiliation: OntologyValue,
+    ):
+        self.identifier: str = identifier
+        self.identifier_scheme: OntologyValue = identifier_scheme
+        self.identifier_scheme_iri: OntologyValue = identifier_scheme_iri
+        self.given_name: str = given_name
+        self.family_name: str = family_name
+        self.full_name: str = full_name
+        self.affiliation: OntologyValue = affiliation
+
+    @classmethod
+    def create_from_dict(cls, element: dict):
+        identifier: str = element["creatorIdentifier"]["@value"]
+        identifier_scheme: OntologyValue = OntologyValue.create_from_dict(element["creatorIdentifierScheme"])
+        identifier_scheme_iri: OntologyValue = OntologyValue.create_from_dict(element["creatorIdentifierSchemeIRI"])
+        given_name: str = element["creatorGivenName"]["@value"]
+        family_name: str = element["creatorFamilyName"]["@value"]
+        full_name: str = element["creatorFullName"]["@value"]
+        affiliation: OntologyValue = OntologyValue.create_from_dict(element["creatorAffiliation"])
+
+        return cls(
+            identifier, identifier_scheme, identifier_scheme_iri, given_name, family_name, full_name, affiliation
+        )
+
+    @classmethod
+    def create_from_mock_result(cls, mock_json=None):
+        if mock_json is None:
+            mock_json = cls.MOCK_JSON
+        return Creator.create_from_dict(json.loads(mock_json))
+
+    MOCK_JSON = """
+    {
         "creatorIdentifier": {
             "@value": "foobar"
         },
@@ -38,19 +81,5 @@ class Creator(Person):
             "creatorFullName": "https://schema.metadatacenter.org/properties/34cd0986-098c-4c76-830c-300966ad422a",
             "creatorAffiliation": "https://schema.metadatacenter.org/properties/11ea34dd-138e-4901-8565-c56e8cf980ca"
         }
-    },
+    }
     """
-
-    @classmethod
-    def create_from_element(cls, element: dict):
-        identifier: str = element["creatorIdentifier"]["@value"]
-        identifier_scheme: OntologyValue = OntologyValue.create_from_element(element["creatorIdentifierScheme"])
-        identifier_scheme_iri: OntologyValue = OntologyValue.create_from_element(element["creatorIdentifierSchemeIRI"])
-        given_name: str = element["creatorGivenName"]["@value"]
-        family_name: str = element["creatorFamilyName"]["@value"]
-        full_name: str = element["creatorFullName"]["@value"]
-        affiliation: OntologyValue = OntologyValue.create_from_element(element["creatorAffiliation"])
-
-        return cls(
-            identifier, identifier_scheme, identifier_scheme_iri, given_name, family_name, full_name, affiliation
-        )

@@ -1,9 +1,33 @@
+import json
+
 from cedarparsingutils.dto.general_elements.contact import Contact
 
 
 class Contacts:
     """
-    "7_ContactPerson": [
+    The DTO class parses a "7_ContactPerson" element array from a DataHub general instance.
+    """
+
+    def __init__(self, contacts: list[Contact]):
+        self.contacts: list[Contact] = contacts
+
+    @classmethod
+    def create_from_dict(cls, element: dict):
+        output: list[Contact] = []
+        for item in element:
+            contact = Contact.create_from_dict(item)
+            output.append(contact)
+
+        return cls(output)
+
+    @classmethod
+    def create_from_mock_result(cls, mock_json=None):
+        if mock_json is None:
+            mock_json = cls.MOCK_JSON
+        return Contacts.create_from_dict(json.loads(mock_json))
+
+    MOCK_JSON = """
+    [
         {
             "contactFullName": {
                 "@value": "Jonathan M\u00e9lius"
@@ -40,15 +64,3 @@ class Contacts:
         }
     ]
     """
-
-    def __init__(self, contacts: list[Contact]):
-        self.contacts: list[Contact] = contacts
-
-    @classmethod
-    def create_from_element(cls, element: dict):
-        output: list[Contact] = []
-        for item in element:
-            contact = Contact.create_from_element(item)
-            output.append(contact)
-
-        return cls(output)
