@@ -1,3 +1,7 @@
+import json
+
+import pytest
+
 from cedarparsingutils.dto.general_elements.contacts import Contacts
 from cedarparsingutils.dto.general_elements.contributors import Contributors
 from cedarparsingutils.dto.general_elements.creator import Creator
@@ -80,6 +84,26 @@ def test_instance():
         general_instance.related_resources.related_resources[0].relation_type.uri
         == "http://vocab.fairdatacollective.org/gdmt/Requires"
     )
+
+
+def test_parse_minimal_instance_from_file():
+    f = open("assets/minimal.json", "r")
+    data = json.load(f)
+    GeneralInstance.create_from_dict(data)
+
+
+def test_parse_full_instance_from_file():
+    f = open("assets/full.json", "r")
+    data = json.load(f)
+    GeneralInstance.create_from_dict(data)
+
+
+def test_parse_wrong_instance_from_file():
+    with pytest.raises(KeyError, match="creatorGivenName"):
+        # Creator given name is missing
+        f = open("assets/wrong.json", "r")
+        data = json.load(f)
+        GeneralInstance.create_from_dict(data)
 
 
 def test_identifier():
